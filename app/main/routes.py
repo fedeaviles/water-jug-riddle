@@ -65,26 +65,26 @@ def bfs(x_jug_cap, y_jug_cap, z_to_measure):
             ],
         )
 
-    def pour(state, from_jug, to_jug):
+    def transfer(state, from_jug, to_jug):
         """
-        Pour water from one jug to another.
+        Transfer water from one jug to another.
 
         Args:
             state (tuple): Current state of the jugs.
-            from_jug (int): Index of the jug to pour from.
-            to_jug (int): Index of the jug to pour into.
+            from_jug (int): Index of the jug to transfer from.
+            to_jug (int): Index of the jug to transfer into.
 
         Returns:
-            tuple: New state after pouring water.
+            tuple: New state after transfering water.
         """
-        amount_poured = min(state[from_jug], y_jug_cap - state[to_jug])
-        x_amount = state[0] - amount_poured if from_jug == 0 else state[0]
-        y_amount = state[1] + amount_poured if to_jug == 1 else state[1]
+        amount_transfered = min(state[from_jug], y_jug_cap - state[to_jug])
+        x_amount = state[0] - amount_transfered if from_jug == 0 else state[0]
+        y_amount = state[1] + amount_transfered if to_jug == 1 else state[1]
         return generate_new_state(
             x_amount,
             y_amount,
             state[2],
-            "Pour X to Y" if from_jug == 0 else "Pour Y to X",
+            "Transfer X to Y" if from_jug == 0 else "Transfer Y to X",
         )
 
     visited = set()
@@ -110,8 +110,8 @@ def bfs(x_jug_cap, y_jug_cap, z_to_measure):
             generate_new_state(x_amount, y_jug_cap, action, "Fill Y"),
             generate_new_state(0, y_amount, action, "Empty X"),
             generate_new_state(x_amount, 0, action, "Empty Y"),
-            pour(current_state, 0, 1),
-            pour(current_state, 1, 0),
+            transfer(current_state, 0, 1),
+            transfer(current_state, 1, 0),
         ]
         queue.extend(new_states)
 
