@@ -118,14 +118,36 @@ def bfs(x_jug_cap, y_jug_cap, z_to_measure):
     return None
 
 
+def validate_args(x, y, z):
+    """
+    Validate if input arguments are valid integers.
+
+    Args:
+        x (str): Input value for X-gallon jug.
+        y (str): Input value for Y-gallon jug.
+        z (str): Input value for Z gallons to measure.
+
+    Returns:
+        bool: True if arguments are valid integers, False otherwise.
+    """
+    return x.isdigit() and y.isdigit() and z.isdigit()
+
+
 @bp.route("/", methods=["GET", "POST"])
 def index():
+    error_message = None
     if request.method == "POST":
-        x = int(request.form.get("x"))
-        y = int(request.form.get("y"))
-        z = int(request.form.get("z"))
+        x = request.form.get("x")
+        y = request.form.get("y")
+        z = request.form.get("z")
 
-        solution_steps = bfs(x, y, z)
-        return render_template("index.html", solution_steps=solution_steps)
+        if not validate_args(x, y, z):
+            error_message = "Invalid input"
+        else:
+            x = int(x)
+            y = int(y)
+            z = int(z)
+            solution_steps = bfs(x, y, z)
+            return render_template("index.html", solution_steps=solution_steps)
 
-    return render_template("index.html")
+    return render_template("index.html", error_message=error_message)

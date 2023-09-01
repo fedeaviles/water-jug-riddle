@@ -32,7 +32,9 @@
                 <button type="submit" class="btn btn-primary mb-3">Solve</button>
             </div>
         </form>
-        {% if solution_steps %}
+        {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+        {% elif solution_steps %}
         <h2>Solution</h2>
         <table class="table">
             <thead>
