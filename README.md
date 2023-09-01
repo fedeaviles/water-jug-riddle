@@ -33,7 +33,7 @@ Before you begin, make sure you have the following installed:
 
 ## API Endpoint
 
-You can also use the API endpoint to solve the water jug riddle programmatically. The API endpoint is available at:
+You can also use the API endpoint to solve the water jug riddle. The API endpoint is available at:
 
 http://localhost:8000/api/
 
