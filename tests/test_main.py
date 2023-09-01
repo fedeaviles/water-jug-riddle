@@ -2,6 +2,9 @@
 import json
 from unittest.mock import patch
 
+# deps
+import pytest
+
 # local
 from app.main.routes import bfs
 
@@ -145,23 +148,43 @@ def test_api_with_no_solution(mock_bfs, client):
     assert response.get_json() == {"message": "No solution"}
 
 
-def test_valid_solution():
+@pytest.mark.parametrize(
+    "x, y, z",
+    [
+        (1, 0, 1),
+        (1, 1, 0),
+        (0, 1, 0),
+        (3, 4, 2),
+        (5, 6, 3),
+    ],
+)
+def test_valid_solution(x, y, z):
     """
     Test a valid solution using the bfs function.
     """
     # Act
-    solution = bfs(4, 3, 2)
+    solution = bfs(x, y, z)
 
     # Assert
     assert solution is not None
 
 
-def test_no_solution():
+@pytest.mark.parametrize(
+    "x, y, z",
+    [
+        (0, 0, 1),
+        (1, 2, 3),
+        (4, 4, 3),
+        (4, 0, 2),
+        (0, 3, 2),
+    ],
+)
+def test_no_solution(x, y, z):
     """
     Test a case with no solution using the bfs function.
     """
     # Act
-    solution = bfs(5, 7, 9)
+    solution = bfs(x, y, z)
 
     # Assert
     assert solution is None
