@@ -89,7 +89,7 @@ def test_api_with_valid_input(mock_bfs, client):
 
     # Assert
     assert response.status_code == 200
-    assert b"Start" in response.data
+    assert response.get_json() == mock_bfs.return_value
 
 
 def test_api_missing_required_parameters(client):
@@ -106,7 +106,7 @@ def test_api_missing_required_parameters(client):
 
     # Assert
     assert response.status_code == 400
-    assert b"Missing required parameters" in response.data
+    assert response.get_json() == {"message": "Missing required parameters"}
 
 
 def test_api_with_invalid_input(client):
@@ -123,7 +123,7 @@ def test_api_with_invalid_input(client):
 
     # Assert
     assert response.status_code == 400
-    assert b"Invalid input" in response.data
+    assert response.get_json() == {"message": "Invalid input"}
 
 
 @patch("app.main.routes.bfs")
@@ -142,7 +142,7 @@ def test_api_with_no_solution(mock_bfs, client):
 
     # Assert
     assert response.status_code == 200
-    assert b"No solution" in response.data
+    assert response.get_json() == {"message": "No solution"}
 
 
 def test_valid_solution():
