@@ -39,6 +39,23 @@ def test_index_post_with_no_solution(mock_bfs, client):
     assert b"No solution" in response.data
 
 
+@patch("app.main.routes.bfs")
+def test_index_post_with_invalid_input(mock_bfs, client):
+    """
+    Test the POST request to the index page with invalid input.
+    """
+    # Arrange
+    mock_bfs.return_value = None
+    data = {"x": "invalid", "y": 4, "z": 2}
+
+    # Act
+    response = client.post("/", data=data)
+
+    # Assert
+    assert response.status_code == 200
+    assert b"Invalid input" in response.data
+
+
 def test_index_get(client):
     """
     Test the GET request to the index page.
