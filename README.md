@@ -30,3 +30,21 @@ Before you begin, make sure you have the following installed:
 4. Access the application:
 
     Open your web browser and go to: http://localhost:8000
+
+## API Endpoint
+
+You can also use the API endpoint to solve the water jug riddle programmatically. The API endpoint is available at:
+
+http://localhost:8000/api/
+
+You can send a JSON POST request with the following format:
+
+```json
+{
+  "x": 3,
+  "y": 4,
+  "z": 2
+}
+```
+
+The API will respond with a JSON object containing the solution steps, or a message indicating no solution.
