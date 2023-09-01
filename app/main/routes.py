@@ -2,7 +2,7 @@
 from collections import deque
 
 # flask
-from flask import render_template, request
+from flask import jsonify, render_template, request
 
 # local
 from app.main import bp
@@ -151,3 +151,22 @@ def index():
             return render_template("index.html", solution_steps=solution_steps)
 
     return render_template("index.html", error_message=error_message)
+
+
+@bp.route("/api/", methods=["POST"])
+def api():
+    x = request.json.get("x")
+    y = request.json.get("y")
+    z = request.json.get("z")
+
+    if x is None or y is None or z is None:
+        return jsonify({"message": "Missing required parameters"}), 400
+
+    if not validate_args(str(x), str(y), str(z)):
+        return jsonify({"message": "Invalid input"}), 400
+
+    solution_steps = bfs(x, y, z)
+    if solution_steps is None:
+        return jsonify({"message": "No solution"}), 200
+
+    return jsonify(solution_steps), 200
